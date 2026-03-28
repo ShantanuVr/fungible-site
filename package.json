@@ -1,0 +1,11 @@
+{
+  "name": "fungible-site",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler pages deploy . --project-name=fungible-site",
+    "deploy:prod": "wrangler pages deploy . --project-name=fungible-site --branch=main"
+  },
+  "devDependencies": {
+    "wrangler": "^4.54.0"
+  }
+}
