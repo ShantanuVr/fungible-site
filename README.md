@@ -21,6 +21,21 @@ See also: `CLOUDFLARE_CLEAR_DEPLOY_COMMAND.txt` in this repo.
 
 ---
 
+## GoDaddy page / “Website Builder” instead of this site
+
+If `fungible.co.in` shows a **GoDaddy** banner or **DPS** (GoDaddy Website Builder), your **nameservers can still be Cloudflare** while **DNS records** send visitors to **GoDaddy’s servers**. A quick check: response headers may show `Server: DPS/...` and CSP mentioning `godaddy.com`.
+
+**Fix:** In **Cloudflare** → **DNS** for `fungible.co.in`, **remove or replace** any record for **`@` (apex)** or **`www`** that points to **GoDaddy** (parking IPs, `sites.godaddy.com`, `parked-*.godaddy.com`, old A records from the registrar wizard, etc.).
+
+Then point the site at **your** hosting only, for example:
+
+- **Pages:** `www` → **CNAME** → `<project>.pages.dev` (same account as the zone — see Error 1014), and set up the apex per **Custom domains** in the Pages project (or a supported apex pattern).
+- **Worker:** keep **Workers** → **Routes** like `*.fungible.co.in/*` → `fungible-site` **and** ensure DNS does **not** override that with records to GoDaddy.
+
+Also turn off **GoDaddy forwarding / Website Builder publish** for this domain in GoDaddy if you still use their dashboard (optional once DNS is only in Cloudflare).
+
+---
+
 ## Error 522 — “Connection timed out” (e.g. on `www.fungible.co.in`)
 
 Cloudflare reached its edge OK, but the **origin path for that hostname failed** (diagram: **Host** = red). This is almost always **DNS or routing**, not your HTML repo.
