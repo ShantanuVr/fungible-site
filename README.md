@@ -1,8 +1,26 @@
 # Fungible Systems — static site
 
+## If the build log says `Executing user deploy command: npx wrangler deploy`
+
+**That command is configured in the Cloudflare dashboard, not in git.** This repo does not set it. Until you remove it, every build will fail.
+
+Do this now:
+
+1. [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → select **this** project.
+2. **Settings** → **Builds & deployments** (names vary slightly; look for **Build** / **Build configuration**).
+3. Locate **Deploy command** (or **Custom deploy command** / **Non-production deploy command**).
+4. **Delete everything** in that field so it is **blank**. Save.
+5. Trigger a new deployment.
+
+Git-connected **Pages** uploads the build output automatically. You should **not** use `npx wrangler deploy` (that is for **Workers**, not Pages, and causes the “Missing entry-point” / asset errors you are seeing).
+
+See also: `CLOUDFLARE_CLEAR_DEPLOY_COMMAND.txt` in this repo.
+
+---
+
 ## Cloudflare Pages (Git integration)
 
-Use **Cloudflare Pages**, not Workers `wrangler deploy`.
+Use **Cloudflare Pages** default Git deploy — **not** Workers `wrangler deploy`.
 
 In your Pages project → **Settings** → **Builds & deployments**:
 
@@ -11,9 +29,9 @@ In your Pages project → **Settings** → **Builds & deployments**:
 | **Framework preset** | None (or static HTML) |
 | **Build command** | *(leave empty)* |
 | **Build output directory** | `/` (root) |
-| **Deploy command** / **Non-production branch deploy command** | *(remove / leave empty)* — do **not** run `npx wrangler deploy` |
+| **Deploy command** | *(must be empty — see section above)* |
 
-`npx wrangler deploy` targets **Workers** and bundles the whole repo (including `node_modules`), which hits the **25 MiB** asset limit and fails.
+`npx wrangler deploy` targets **Workers**, not Pages, and will fail on this static site.
 
 This repository is intentionally **plain static files** (`index.html`, `_headers`, …) with **no `package.json`**, so Cloudflare will not run `npm install` during the build.
 

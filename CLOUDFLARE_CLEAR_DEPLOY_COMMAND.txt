@@ -1,0 +1,18 @@
+================================================================================
+REQUIRED IF YOUR BUILD LOG SHOWS:  Executing user deploy command: npx wrangler deploy
+================================================================================
+
+That line is NOT from this repository. It is set in the Cloudflare dashboard only.
+
+1. Cloudflare Dashboard → Workers & Pages → open your project (e.g. fungible-site).
+2. Settings → Builds & deployments (or Build).
+3. Find "Deploy command" (or "Custom deploy command" / similar under Advanced).
+4. DELETE the entire value. Save. The field must be empty.
+
+For Git-based Cloudflare Pages, uploads happen automatically after the build.
+You must NOT run: npx wrangler deploy
+
+Optional local CLI (not used by default Git builds):
+  npx wrangler pages deploy . --project-name=fungible-site
+
+================================================================================
