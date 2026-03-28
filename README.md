@@ -50,6 +50,25 @@ After DNS changes, allow a few minutes and retry (or check from another network)
 
 ---
 
+## Error 1014 — “CNAME Cross-User Banned”
+
+Cloudflare does **not** allow an **orange-cloud (proxied) CNAME** to `*.pages.dev` (or another customer’s Workers hostname) when that target lives in a **different Cloudflare account** than the zone where you edit DNS. You see this if **`fungible.co.in`** is managed in **Account A** but **`fungible-site`** (Pages) was created in **Account B** (e.g. another login / team).
+
+**Fix (pick one):**
+
+1. **Use one account for both**  
+   Log into the Cloudflare account where **`fungible-site`** exists. Ensure **the same account** also has the **`fungible.co.in` zone** (or [move/add the domain](https://developers.cloudflare.com/fundamentals/setup/manage-domains/add-domain/) to that account). Then add **`fungible.co.in` / `www`** under **Workers & Pages** → **fungible-site** → **Custom domains** and use the DNS values / setup wizard Cloudflare shows.
+
+2. **Or recreate Pages in the account that already owns the domain**  
+   If the domain must stay in Account A, create the Pages project (and Git connection) **in Account A**, deploy, then attach custom domains there. Remove or ignore the old project in the other account.
+
+3. **Don’t mix two “homes” for the same site**  
+   If you attached **`fungible.co.in`** to a **Worker** (`fungible-site`) *and* also use **Pages** with `www` → `fungible-site.pages.dev`, simplify: for this repo, use **Pages only** — remove redundant Worker custom-domain bindings on the apex if Pages is the source of truth.
+
+Official reference: [Error 1014](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1014/).
+
+---
+
 ## Cloudflare Pages (Git integration)
 
 Use **Cloudflare Pages** default Git deploy — **not** Workers `wrangler deploy`.
