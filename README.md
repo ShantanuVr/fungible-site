@@ -21,6 +21,33 @@ See also: `CLOUDFLARE_CLEAR_DEPLOY_COMMAND.txt` in this repo.
 
 ---
 
+## Error 522 — “Connection timed out” (e.g. on `www.fungible.co.in`)
+
+Cloudflare reached its edge OK, but the **origin path for that hostname failed** (diagram: **Host** = red). This is almost always **DNS or routing**, not your HTML repo.
+
+Check in order:
+
+1. **Pages deployment is live**  
+   **Workers & Pages** → your project → **Deployments** → latest **Production** build must be **Success** (not failed).
+
+2. **Custom domain is active**  
+   Same project → **Custom domains** → `www.fungible.co.in` should be **Active** with a valid certificate (not stuck *Pending*).
+
+3. **No conflicting DNS for `www`** (most common fix for 522)  
+   **Websites** → **fungible.co.in** → **DNS** → records for **`www`**:
+   - There should be **one** logical target: typically a **CNAME** `www` → **`<your-project>.pages.dev`** (exact value is shown in the Pages **Custom domains** UI when you add the domain).
+   - **Remove** any **A** or **AAAA** record for `www` pointing to an old server IP. With **Proxied** (orange cloud), Cloudflare will try to connect to that IP as the origin; if nothing answers → **522**.
+
+4. **Worker route not breaking `www`**  
+   If a **Worker** has a route on `www.fungible.co.in/*` and it calls an origin that times out, you can see 522. Temporarily **disable** that Worker or the route to test.
+
+5. **SSL/TLS**  
+   **SSL/TLS** → **Overview** → use **Full** or **Full (strict)** (normal for Pages + proxied DNS).
+
+After DNS changes, allow a few minutes and retry (or check from another network).
+
+---
+
 ## Cloudflare Pages (Git integration)
 
 Use **Cloudflare Pages** default Git deploy — **not** Workers `wrangler deploy`.
