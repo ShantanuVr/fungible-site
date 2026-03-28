@@ -33,10 +33,12 @@ Check in order:
 2. **Custom domain is active**  
    Same project → **Custom domains** → `www.fungible.co.in` should be **Active** with a valid certificate (not stuck *Pending*).
 
-3. **No conflicting DNS for `www`** (most common fix for 522)  
-   **Websites** → **fungible.co.in** → **DNS** → records for **`www`**:
-   - There should be **one** logical target: typically a **CNAME** `www` → **`<your-project>.pages.dev`** (exact value is shown in the Pages **Custom domains** UI when you add the domain).
-   - **Remove** any **A** or **AAAA** record for `www` pointing to an old server IP. With **Proxied** (orange cloud), Cloudflare will try to connect to that IP as the origin; if nothing answers → **522**.
+3. **DNS for `www` — point at Pages, not at the apex** (common cause of 522)  
+   **Websites** → **fungible.co.in** → **DNS** → the **`www`** record:
+
+   - **Do not** use **`www` → CNAME → `fungible.co.in`** (apex). That indirect chain is easy to get wrong: the apex may be bound to a Worker/Pages route while **`www` is a different hostname** and may not resolve to the same service reliably.
+   - **Do** set **`www` → CNAME → `<your-project>.pages.dev`** (exact hostname is shown under **Workers & Pages** → your project → **Custom domains** when `www.fungible.co.in` is added — e.g. `fungible-site.pages.dev`). Keep **Proxied** (orange cloud).
+   - **Remove** any **A** / **AAAA** on `www` pointing at an old host IP (that also causes **522**).
 
 4. **Worker route not breaking `www`**  
    If a **Worker** has a route on `www.fungible.co.in/*` and it calls an origin that times out, you can see 522. Temporarily **disable** that Worker or the route to test.
