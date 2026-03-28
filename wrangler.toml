@@ -2,7 +2,14 @@
 #
 # Static HTML only: no KV, D1, R2, Queues, or other runtime bindings are required.
 # If you later add Pages Functions under /functions, add bindings here (or use the dashboard).
+#
+# [assets] — only needed if the dashboard incorrectly runs `npx wrangler deploy` (Workers).
+# Prefer an empty Deploy command in Pages; see README.md. This block satisfies Workers
+# “Missing entry-point” when that mistaken command still runs.
 
 name = "fungible-site"
 compatibility_date = "2025-03-28"
 pages_build_output_dir = "."
+
+[assets]
+directory = "."

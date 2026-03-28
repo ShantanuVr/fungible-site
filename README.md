@@ -2,7 +2,10 @@
 
 ## If the build log says `Executing user deploy command: npx wrangler deploy`
 
-**That command is configured in the Cloudflare dashboard, not in git.** This repo does not set it. Until you remove it, every build will fail.
+**That command is configured in the Cloudflare dashboard, not in git.** This repo does not set it.
+
+**Preferred fix:** remove the deploy command (steps below).  
+**Repo workaround:** `wrangler.toml` now includes `[assets] directory = "."` so `npx wrangler deploy` can complete (Workers static assets). You should still clear the dashboard setting so you use **Pages** normally, not a Worker deploy inside a Pages build.
 
 Do this now:
 
