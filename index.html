@@ -45,11 +45,6 @@ h1.hero-h1 em{color:var(--red);font-style:normal;}
 .btn-ghost{color:rgba(255,255,255,0.6);font-size:13px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:2px;}
 .btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,0.4);}
 .hero-right{display:flex;flex-direction:column;justify-content:center;padding:80px 7vw 80px 4vw;position:relative;z-index:2;gap:14px;}
-/* Softer panel: keeps readability but blends with hero better */
-.hero-right::before{content:'';position:absolute;inset:52px 6vw 52px 0;background:linear-gradient(102deg,rgba(13,13,13,0.62) 0%,rgba(13,13,13,0.48) 68%,rgba(13,13,13,0.24) 100%);border-radius:2px;z-index:0;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,0.24);}
-@supports ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))){
-  .hero-right::before{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);}
-}
 .hero-right > *{position:relative;z-index:1;}
 .stat-c{background:rgba(10,10,10,0.56);border:1px solid rgba(255,255,255,0.1);padding:22px 26px;position:relative;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.24);}
 .stat-c::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
