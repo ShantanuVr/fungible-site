@@ -1,6 +1,7 @@
 # Files below are not uploaded as public static assets (gitignore-style).
 # See: https://developers.cloudflare.com/workers/static-assets/
 
+node_modules/
 .git/
 README.md
 CLOUDFLARE_CLEAR_DEPLOY_COMMAND.txt
