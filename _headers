@@ -1,0 +1,7 @@
+# HTTPS + security (Cloudflare Pages applies these to static responses)
+# Ensure "Always Use HTTPS" is ON (SSL/TLS → Edge Certificates) so HTTP upgrades before HSTS applies.
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
